@@ -8,11 +8,12 @@ from collections import OrderedDict
 from tqdm import tqdm
 from itertools import product
 from collections import defaultdict
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--chains_num", type=int, default=5)
 parser.add_argument("--nodes_num", type=int, default=7)
-parser.add_argument("--max_rules_num", type=int, default=3)
+parser.add_argument("--max_rules_num", type=int, default=2)
 parser.add_argument("--min_rules_num", type=int, default=1)
 
 args = parser.parse_args()
@@ -335,10 +336,15 @@ len(paths)
 
 # save paths into pkl file
 
-with open("path_data.pkl", "wb") as f:
+# Create temp directory if it doesn't exist
+temp_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "temp")
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
+    print(f"Created directory: {temp_dir}")
+
+with open(f"{temp_dir}/path_data.pkl", "wb") as f:
     pickle.dump(paths, f)
 
 # save graphs into pkl file
-
-with open("graphs.pkl", "wb") as f:
+with open(f"{temp_dir}/graphs.pkl", "wb") as f:
     pickle.dump(chains, f)

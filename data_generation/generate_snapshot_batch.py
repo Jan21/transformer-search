@@ -1,7 +1,7 @@
 from collections import OrderedDict
 import ast
 import pickle
-
+import os
 def generate_snapshots(element):
     """
     Process a single element and generate snapshots for each operation.
@@ -111,9 +111,11 @@ def generate_snapshots(element):
 
 
 def main():
+    temp_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "temp")
+
     # Specify the input and output pickle filenames directly in the code.
-    input_pickle_file = "path_data.pkl"  # Change this to your input file name.
-    output_pickle_file = "output_snapshots.pkl"  # Change this if you prefer another output file name.
+    input_pickle_file = f"{temp_dir}/path_data.pkl"  # Change this to your input file name.
+    output_pickle_file = f"{temp_dir}/output_snapshots.pkl"  # Change this if you prefer another output file name.
 
     try:
         with open(input_pickle_file, "rb") as f:
