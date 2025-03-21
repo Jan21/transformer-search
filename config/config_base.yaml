@@ -1,0 +1,53 @@
+defaults:  
+  - _self_  
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled  
+  
+hydra:  
+  output_subdir: null  
+  run:  
+    dir: .
+
+tok_data:
+  train_file: "data/train.json"
+  val_file: "data/test.json"
+  tokenizer_path: "tokenizer/tokenizer.json"
+
+data:
+  datapath: data
+  train_file: "train.json"
+  val_file: "test.json"
+  test_file: "test.json"
+  num_workers: 32
+  split_str: "Command:"
+  
+model:
+  name: "Pythia-${model.n_layer}-${model.n_head}-${model.n_embd}-transformer_search"
+  batch_size: 4096
+  accumulate_grad_batches: 1
+  block_size: 68
+  epochs: 100
+  n_layer: 12
+  n_head: 8
+  n_embd: 256
+  vocab_size: 81
+  padded_vocab_size: 81
+  bos_id: 76
+  eos_id: 80
+
+optim:
+  lr: 1e-2
+
+eval:
+  num_examples: 2048
+  batch_size: 2048
+  results_dir: "data/eval_results/${model.name}"
+
+convert_hf:
+  in_path: "temp/${model.name}"
+  out_path: "temp/hf_${model.name}"
+
+inference:
+  modelpath: "./temp/hf_Pythia-12-8-256-arrays-base-FS"
+  datapath: ${data.datapath}/test_set/
+  batch_size: 2048
