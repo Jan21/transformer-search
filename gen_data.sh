@@ -17,8 +17,12 @@
 
 singularity exec \
     $SIF \
-    python data_generation/generate_chains.py 
+    python data_generation/1_generate_chains.py 
 
 singularity exec \
     $SIF \
-    python data_generation/generate_snapshot_batch.py
+    python data_generation/2_generate_snapshot_batch.py
+
+singularity exec \
+    $SIF \
+    python data_generation/3_generate_data.py
