@@ -54,7 +54,9 @@ def add_enabling(chains):
                         enabling_G = chains[enabling_chain]
                         enabling_node = random.choice(list(enabling_G.nodes()))
                         enabling_conditions.append({'automata_id':enabling_chain,'node_id':enabling_node})
-                    tmp = [enabling_conditions, [{'automata_id':n-1,'node_id':9999}]]
+
+                    enabling_conditions_sorted = sorted(enabling_conditions, key=lambda x: x['automata_id'])
+                    tmp = [enabling_conditions_sorted, [{'automata_id':n-1,'node_id':9999}]]
                     
                     G.edges[edge]['enabling'] = tmp
     
@@ -331,8 +333,6 @@ paths = []
 for log in tqdm(logs):
     dict_of_path = parse_log(log['log'])
     paths.append(dict_of_path)
-
-len(paths)
 
 # save paths into pkl file
 
