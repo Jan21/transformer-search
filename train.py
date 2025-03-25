@@ -147,7 +147,7 @@ class LitLLM(L.LightningModule):
             examples_table = wandb.Table(columns=["Prompt", "Prediction", "Ground Truth", "Exact Match"])
             
             # Select a few random indices to log
-            num_examples = min(5, len(evaluator.prompts))
+            num_examples = min(100, len(evaluator.prompts))
             indices = np.random.choice(len(evaluator.prompts), num_examples, replace=False)
             
             for i in indices:

@@ -23,17 +23,17 @@ data:
   
 model:
   name: "Pythia-${model.n_layer}-${model.n_head}-${model.n_embd}-transformer_search"
-  batch_size: 4096
+  batch_size: 2048
   accumulate_grad_batches: 1
-  block_size: 68
+  block_size: 128
   epochs: 100
-  n_layer: 12
+  n_layer: 24
   n_head: 8
   n_embd: 256
-  vocab_size: 81
-  padded_vocab_size: 81
-  bos_id: 76
-  eos_id: 80
+  vocab_size: 26
+  padded_vocab_size: 26
+  bos_id: 21
+  eos_id: 25
 
 optim:
   lr: 1e-2
@@ -48,6 +48,6 @@ convert_hf:
   out_path: "temp/hf_${model.name}"
 
 inference:
-  modelpath: "./temp/hf_Pythia-12-8-256-arrays-base-FS"
+  modelpath: "./temp/hf_Pythia-12-8-256-transformer_search"
   datapath: ${data.datapath}/test_set/
   batch_size: 2048

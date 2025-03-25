@@ -1,10 +1,12 @@
 import pickle
 import json
 
-with open("/content/test_data.pkl", "rb") as f:
+print("Start conversion.")
+
+with open("./temp/test_data.pkl", "rb") as f:
   te = pickle.load(f)
 
-with open("/content/train_data.pkl", "rb") as f:
+with open("./temp/train_data.pkl", "rb") as f:
   tr = pickle.load(f)
 
 def convert_to_json_format(input_data):
@@ -24,8 +26,10 @@ def convert_to_json_format(input_data):
 test = convert_to_json_format(te)
 train = convert_to_json_format(tr)
 
-with open('../data/test.json', 'w') as f:
+with open('data/test.json', 'w') as f:
     json.dump(test, f, indent=2)
 
-with open('../data/train.json', 'w') as f:
+with open('data/train.json', 'w') as f:
     json.dump(train, f, indent=2)
+
+print("Done conversion.")

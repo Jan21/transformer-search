@@ -129,8 +129,9 @@ def get_data(cfg: DictConfig, tokenizer):
             "test": val_file,
         },
     )
-    hf_dataset["train"] = hf_dataset["train"].select(range(int(524288)))
+    hf_dataset["train"] = hf_dataset["train"].select(range(int(1048576)))
     hf_dataset["test"] = hf_dataset["test"].select(range(int(12228)))
+    hf_dataset["val"] = hf_dataset["val"].select(range(int(12228)))
 
     def tokenize(examples):
         texts = [
