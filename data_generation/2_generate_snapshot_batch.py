@@ -58,9 +58,10 @@ def generate_snapshots(element):
             if not stack or not stack[0]:
                 print("Error: TF operation attempted on an empty stack or empty first OrderedDict.")
                 break
-            # If the first dictionary has only one element, leave it unchanged.
+            # If the first dictionary has only one element, skip the entire example.
             if len(stack[0]) == 1:
-                continue
+                print("Skipping example due to TF operation with single-element first dict.")
+                return None
             first_dict = stack[0]
             key = next(iter(first_dict))
             value = first_dict.pop(key)
@@ -131,7 +132,10 @@ def main():
     all_snapshots = []
     for i, element in enumerate(elements):
         snapshots = generate_snapshots(element)
-        all_snapshots.append(snapshots)
+        if snapshots is not None:
+            all_snapshots.append(snapshots)
+        else:
+            print(f"Element {i} skipped due TF operation with single-element first dict.")
 
     try:
         with open(output_pickle_file, "wb") as f:
