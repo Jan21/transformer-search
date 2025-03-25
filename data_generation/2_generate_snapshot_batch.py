@@ -24,7 +24,17 @@ def generate_snapshots(element):
             stack.pop(0)
 
     for op in element['path']:
-        # Record a snapshot BEFORE processing the current op.
+        # Check if we should skip logging for this operation.
+        if op == "TF":
+            cleanup_stack()
+            if not stack or not stack[0]:
+                print("Error: TF operation attempted on an empty stack or empty first OrderedDict.")
+                break
+            if len(stack[0]) == 1:
+                print("Skipping TF operation due to single-element first dict; not logging snapshot.")
+                continue  # Skip logging and processing this op entirely
+
+        # Otherwise, record a snapshot for the current op.
         snapshot = {
             'init_state': init_state.copy(),
             'stack': [od.copy() for od in stack],
@@ -58,10 +68,6 @@ def generate_snapshots(element):
             if not stack or not stack[0]:
                 print("Error: TF operation attempted on an empty stack or empty first OrderedDict.")
                 break
-            # If the first dictionary has only one element, skip the entire example.
-            if len(stack[0]) == 1:
-                print("Skipping example due to TF operation with single-element first dict.")
-                return None
             first_dict = stack[0]
             key = next(iter(first_dict))
             value = first_dict.pop(key)
