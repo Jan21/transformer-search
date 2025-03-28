@@ -22,7 +22,7 @@ data:
   split_str: "Command:"
   
 model:
-  name: "Pythia-${model.n_layer}-${model.n_head}-${model.n_embd}-transformer_search"
+  name: "Pythia-${model.n_layer}-${model.n_head}-${model.n_embd}-transformer_search-datafix"
   batch_size: 2048
   accumulate_grad_batches: 1
   block_size: 128
@@ -48,6 +48,7 @@ convert_hf:
   out_path: "temp/hf_${model.name}"
 
 inference:
-  modelpath: "./temp/hf_Pythia-12-8-256-transformer_search"
+  modelpath: "./temp/hf_Pythia-24-8-256-transformer_search-datafix"
   datapath: ${data.datapath}/test_set/
   batch_size: 2048
+  notebook_modelpath: "temp/hf_Pythia-24-8-256-transformer_search-datafix"

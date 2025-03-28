@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=gen_data_chains    # Job name
-#SBATCH --output=logs/gen_data/pythia_%j.out        # Standard output and error log (%j expands to jobID)
-#SBATCH --error=logs/gen_data/pythia_%j.err         # Error log
-#SBATCH --time=0:15:00              # Time limit hrs:min:sec
+#SBATCH --job-name=base    # Job name
+#SBATCH --output=logs/test/pythia_base_%j.out        # Standard output and error log (%j expands to jobID)
+#SBATCH --error=logs/test/pythia_base_%j.err         # Error log
+#SBATCH --time=00:10:00              # Time limit hrs:min:sec
 #SBATCH --account=project_465001424
 #SBATCH --nodes=1                      # Number of nodes requested
 #SBATCH --ntasks=1                     # Number of tasks (processes)
@@ -17,16 +17,4 @@
 
 singularity exec \
     $SIF \
-    python data_generation/1_generate_chains.py 
-
-singularity exec \
-    $SIF \
-    python data_generation/2_generate_snapshot_batch.py
-
-singularity exec \
-    $SIF \
-    python data_generation/3_generate_data.py
-
-singularity exec \
-    $SIF \
-    python data_generation/4_convert_to_json.py
+    python test.py

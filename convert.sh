@@ -15,4 +15,4 @@
 
 singularity exec \
     $SIF \
-    python data_generation/convert_to_json.py
+    python data_generation/4_convert_to_json.py
