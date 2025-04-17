@@ -75,3 +75,33 @@ with open(test_data_path, 'wb') as f:
 
 print(f"Train data saved to {train_data_path} ({len(train_data)} samples)")
 print(f"Test data saved to {test_data_path} ({len(test_data)} samples)")
+
+# create a new tokenized version for the test set which for each element
+# takes only the first snapshot and omits the 'Command' (i.e. the 'path' key).
+def get_tokens_without_command(snapshot):
+    """Generate a tokenized string for a single snapshot without the command."""
+    tokens = "Init_state: [ "
+    for k, v in snapshot['init_state'].items():
+        tokens += f"{k} : {v} , "
+    tokens = tokens[:-3] + " ] Stack: [ "
+    for s in snapshot['stack']:
+        tokens += " { "
+        for k, v in s.items():
+            tokens += f"{k} : {v} , "
+        tokens = tokens[:-3] + " } , "
+    tokens = tokens[:-3] + " ]"
+    return tokens
+
+test_first_data = []
+# For every element in the test set, take only the first snapshot and convert it to tokens without the command.
+for element in test_snapshots:
+    if element:  # Ensure the element is not empty
+        first_snapshot = element[0]  # Get the first snapshot of this element
+        token_str = get_tokens_without_command(first_snapshot)
+        test_first_data.append(token_str)
+
+test_first_data_path = f'{temp_dir}/test_first_data.pkl'
+with open(test_first_data_path, 'wb') as f:
+    pickle.dump(test_first_data, f)
+
+print(f"Test first data saved to {test_first_data_path} ({len(test_first_data)} samples)")
